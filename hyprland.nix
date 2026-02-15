@@ -16,6 +16,7 @@
       };
 
       exec-once = [
+        "easyeffects"
         "hyprpaper"
         "quickshell"
       ];
@@ -31,15 +32,36 @@
         layout = "dwindle";
       };
 
+      binds = {
+        drag_threshold = 20;
+      };
+
       bind = [
         "$mod, t, exec, $terminal"
         "Alt, Space, exec, $launcher"
+        "Ctrl, P, exec, qs ipc call launcher toggle"
         
         "$mod, Tab, workspace, r+1"
         "$mod, Tab, exec, qs ipc call update_space_display updateDisplay"
 
         "$mod SHIFT, Tab, workspace, r-1"
         "$mod SHIFT, Tab, exec, qs ipc call update_space_display updateDisplay"
+
+        "$mod, Grave, movetoworkspace, r+1"
+        "$mod SHIFT, Grave, movetoworkspace, r-1"
+      ];
+
+      bindm = [
+        ", mouse:274, movewindow"
+      ];
+
+      windowrule = [
+        "float, title:qs-launcher"
+        "center, title:qs-launcher"
+        "pin, title:qs-launcher"
+        "noblur, title:qs-launcher"
+        "noborder, title:qs-launcher"
+        "noshadow, title:qs-launcher"
       ];
     };
   };
@@ -52,6 +74,8 @@
       };
     };
   };
+
+  # home.file.".config/hypr/xdph.conf".source = config.lib.file.mkOutOfStoreSymlink ./xdph.conf;
 
   home.file.".wallpapers" = {
     source = config.lib.file.mkOutOfStoreSymlink ./.wallpapers;

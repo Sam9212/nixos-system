@@ -12,7 +12,12 @@
   home.packages = with pkgs; [
     neofetch
     vesktop
+    (discord.override {
+      withVencord = true;
+    })
     nerd-fonts.jetbrains-mono
+    nerd-fonts.bigblue-terminal
+    nerd-fonts.departure-mono
   ];
 
   fonts.fontconfig.enable = true;
@@ -26,11 +31,20 @@
     enable = true;
     settings = {
       theme = "bogster";
+      keys.normal = {
+        "A-down" = ["extend_to_line_bounds" "delete_selection" "paste_after"];
+        "A-up" = ["extend_to_line_bounds" "delete_selection" "move_line_up" "paste_before"];
+      };
     };
   };
 
-  programs.fish.enable = true;
-
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      nrs = "sudo nixos-rebuild switch";
+    };
+  };
+  
   programs.kitty = {
     enable = true;
     settings = {

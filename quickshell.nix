@@ -2,7 +2,7 @@
 
 {
   home.file.".config/quickshell" = {
-    source = config.lib.file.mkOutOfStoreSymlink ./quickshell;
+    source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/quickshell";
     recursive = true;
   };
 
