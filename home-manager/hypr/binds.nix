@@ -1,28 +1,58 @@
 { config, pkgs, ... }:
 
 {
+	wayland.windowManager.hyprland.submaps = {
+		"NOR".settings.bind = [
+			"$mod, Grave, exec, qs ipc call bar updateMode 'GRP'"
+			"$mod, Grave, submap, GRP"
+
+			# Switching Workspaces
+			"$mod, Tab, workspace, r+1"
+			"$mod SHIFT, Tab, workspace, r-1"
+			# "$mod, Grave, movetoworkspace, r+1"
+			# "$mod SHIFT, Grave, movetoworkspace, r-1"
+			"$mod, mouse_up, resizeactive, 10 10"
+			"$mod, mouse_down, resizeactive, -10 -10"
+
+			# Screenshotting
+			"$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
+
+			# Opening Slop
+			"$mod, T, exec, $terminal"
+			"$mod, Space, exec, $launcher"
+
+			"$mod, F, exec, /etc/nixos/home-manager/hypr/togglefloatspace.fish"
+			"$mod, F, exec, /etc/nixos/home-manager/hypr/floatall.fish"
+		];
+
+		"NOR".settings.bindr = [
+			", F12, pass, class:^(discord)$"
+		];
+
+		"NOR".settings.bindm = [
+			", mouse:274, movewindow"
+		];
+
+		"GRP".settings.bind = [
+			"$mod, Grave, exec, qs ipc call bar updateMode 'NOR'"
+			"$mod, Grave, submap, NOR"
+
+			", Q, togglegroup, "
+			", W, movewindoworgroup, u"
+			", A, movewindoworgroup, l"
+			", S, movewindoworgroup, d"
+			", D, movewindoworgroup, r"
+		];
+	};
+	
 	wayland.windowManager.hyprland.settings = {
-			binds = {
-				drag_threshold = 20;
-			};
+		binds = {
+			drag_threshold = 20;
+		};
 
-			bind = [
-				"$mod, t, exec, $terminal"
-				"Alt, Space, exec, $launcher"
-				"Ctrl, P, exec, qs, ipc call launcher toggle"
-				
-				# Global Passthrough
-				"Ctrl, Alt, pass, class:discord"
-
-				"$mod, Tab, workspace, r+1"
-				"$mod SHIFT, Tab, workspace, r-1"
-
-				"$mod, Grave, movetoworkspace, r+1"
-				"$mod SHIFT, Grave, movetoworkspace, r-1"
-			];
-
-			bindm = [
-				", mouse:274, movewindow"
-			];
+		# Global Passthrough
+		bindr = [
+			# "Ctrl Alt, Alt_L, pass, class:^(discord)$"
+		];
 	};
 }

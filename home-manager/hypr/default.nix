@@ -3,6 +3,7 @@
 {
 	imports = [
 		./binds.nix
+		./floating.nix
 	];
 	
 	wayland.windowManager.hyprland = {
@@ -25,6 +26,7 @@
 				"easyeffects"
 				"hyprpaper"
 				"quickshell"
+				"hyprctl dispatch submap NOR"
 			];
 
 			monitor = [
@@ -33,17 +35,32 @@
 			];
 
 			general = {
-				gaps_in = "10";
+				gaps_in = "8";
 				layout = "dwindle";
 			};
 
+			dwindle = {
+				smart_split = "true";
+				preserve_split = "true";
+			};
+
+			group.groupbar = {
+				
+			};
+
 			windowrule = [
-				"float, title:qs-launcher"
-				"center, title:qs-launcher"
-				"pin, title:qs-launcher"
-				"noblur, title:qs-launcher"
-				"noborder, title:qs-launcher"
-				"noshadow, title:qs-launcher"
+				# "workspace emptynm silent, class:steam_app_.+"
+				# "focusonactivate, class:zen"
+
+				# "match:class steam_app_.+, workspace emptym silent"
+				# "match:class steam_app_.+, float off"
+
+				# "float, title:qs-launcher"
+				# "center, title:qs-launcher"
+				# "pin, title:qs-launcher"
+				# "noblur, title:qs-launcher"
+				# "noborder, title:qs-launcher"
+				# "noshadow, title:qs-launcher"
 			];
 		};
 	};
