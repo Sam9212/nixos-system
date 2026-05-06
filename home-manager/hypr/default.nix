@@ -3,7 +3,6 @@
 {
 	imports = [
 		./binds.nix
-		./floating.nix
 	];
 	
 	wayland.windowManager.hyprland = {
@@ -24,7 +23,7 @@
 
 			exec-once = [
 				"easyeffects"
-				"hyprpaper"
+				"awww-daemon"
 				"quickshell"
 				"hyprctl dispatch submap NOR"
 			];
@@ -49,38 +48,18 @@
 			};
 
 			windowrule = [
-				# "workspace emptynm silent, class:steam_app_.+"
-				# "focusonactivate, class:zen"
+		    "match:workspace name:floating, float on"
 
-				# "match:class steam_app_.+, workspace emptym silent"
-				# "match:class steam_app_.+, float off"
+				"match:class steam_app_.+, workspace emptynm silent"
+				"match:class steam_app_.+, float off"
 
-				# "float, title:qs-launcher"
-				# "center, title:qs-launcher"
-				# "pin, title:qs-launcher"
-				# "noblur, title:qs-launcher"
-				# "noborder, title:qs-launcher"
-				# "noshadow, title:qs-launcher"
+				"match:class zen, focus_on_activate on"
 			];
 		};
 	};
 
 	home.file.".wallpapers" = {
-		source = config.lib.file.mkOutOfStoreSymlink ./.wallpapers;
+		source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home-manager/hypr/.wallpapers";
 		recursive = true;
-	};
-
-	services.hyprpaper = {
-		enable = true;
-		settings = {
-			preload = [
-				"~/.wallpapers/wallpaper.jpg"
-			];
-
-			wallpaper = [
-				"DP-2,~/.wallpapers/wallpaper.jpg"
-				",~/.wallpapers/wallpaper.jpg"
-			];
-		};
 	};
 }

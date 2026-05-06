@@ -23,4 +23,31 @@
 	    nrs = "sudo nixos-rebuild switch";
 	  };
 	};
+
+	programs.yazi = {
+		enable = true;
+		shellWrapperName = "y";
+		settings = {
+			mgr = {
+				ratio = [
+					0
+					1
+					0
+				];
+			};
+		};
+
+		flavors.kanagawa-loc = ./kanagawa.yazi;
+		theme.flavor.dark = "kanagawa";
+	};
+
+	home.file.".config/zellij" = {
+		source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home-manager/shell/zellij";
+		recursive = true;
+	};
+
+	home.packages = with pkgs; [
+		eza
+		zellij
+	];
 }

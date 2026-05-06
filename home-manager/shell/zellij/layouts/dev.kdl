@@ -1,0 +1,10 @@
+layout {
+	pane split_direction="vertical" {
+		pane command="yazi" {
+			size "15%"
+		}
+		pane command="hx" {
+			size "85%"
+		}
+	}
+}

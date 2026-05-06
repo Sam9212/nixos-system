@@ -1,76 +1,52 @@
 import Quickshell
 import Quickshell.Io
+import Quickshell.Hyprland
+import Quickshell.Wayland
+
 import QtQuick
 import QtQuick.Controls
 
-FloatingWindow {
-    id: qsLauncher
-    title: "qs-launcher"
-    visible: false
+PanelWindow {
+    property bool enabled: false
+    visible: enabled
+    id: launcher
+    
+    implicitWidth: 1200
+    implicitHeight: 150
+    color: "#FF00FF00"
 
-    implicitWidth: 2000
-    implicitHeight: 300
+    WlrLayershell.layer: WlrLayer.Top
+    HyprlandFocusGrab {
+        id: launcherFocus
+        windows: [launcher]
 
-    color: "#00000000"
+        active: launcher.enabled
 
-    TextField {
-        id: searchTerm
+        onCleared: disable();
+    }
 
-        anchors.fill: parent
-        background: Rectangle { color: "#00000000" }
-        color: "#ff7b0f"
+    function enable() {
+        launcher.enabled = true;
+    }
 
-        font.family: "DepartureMono Nerd Font Mono"
-        horizontalAlignment: TextInput.AlignHCenter
-        font.pixelSize: 256
+    function disable() {
+        launcher.enabled = false;
+        input.clear();
+    }
 
+    TextInput {
+        id: input
+        Keys.onEscapePressed: disable();
         focus: true
 
-        onAccepted: {
-            runner.command = [searchTerm.text];
-            runner.running = true;
-            qsLauncher.visible = false;
-            searchTerm.text = '';
-            disableShader.running = true;
-        }
+        
     }
 
     IpcHandler {
         target: "launcher"
 
         function toggle() {
-            qsLauncher.visible = !qsLauncher.visible;
-            if (qsLauncher.visible) {
-                searchTerm.text = '';
-                enableShader.running = true;
-            } else {
-                disableShader.running = true;
-            }
-            
+            launcher.enabled ? disable() : enable();
         }
-    }
-
-    Process {
-        id: enableShader
-        command: [
-            "sh", "-c", "hyprctl keyword misc:vfr false && hyprctl keyword debug:damage_tracking 0 && hyprctl keyword decoration:screen_shader '/etc/nixos/shaders/crt-in.frag'"
-        ]
-
-        running: false
-    }
-
-    Process {
-        id: disableShader
-        command: [
-            "sh", "-c", "hyprctl keyword misc:vfr true && hyprctl keyword debug:damage_tracking 2 && hyprctl keyword decoration:screen_shader ''"
-        ]
-
-        running: false
-    }
-
-    Process {
-        id: runner
-        command: []
-        running: false
     }
 }

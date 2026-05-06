@@ -34,14 +34,27 @@
 		];
 
 		"GRP".settings.bind = [
-			"$mod, Grave, exec, qs ipc call bar updateMode 'NOR'"
-			"$mod, Grave, submap, NOR"
+			"$mod, Grave, exec, qs ipc call bar updateMode 'RSZ'"
+			"$mod, Grave, submap, RSZ"
 
 			", Q, togglegroup, "
 			", W, movewindoworgroup, u"
 			", A, movewindoworgroup, l"
 			", S, movewindoworgroup, d"
 			", D, movewindoworgroup, r"
+		];
+
+		"RSZ".settings.bind = [
+			"$mod, Grave, exec, qs ipc call bar updateMode 'NOR'"
+			"$mod, Grave, submap, NOR"
+		];
+
+		"RSZ".settings.binde = [
+			", Q, togglegroup, "
+			", W, resizeactive, 0 -75"
+			", A, resizeactive, -75 0"
+			", S, resizeactive, 0 75"
+			", D, resizeactive, 75 0"
 		];
 	};
 	

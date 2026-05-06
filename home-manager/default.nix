@@ -17,9 +17,11 @@
 		stateVersion = "25.11";
 
 		packages = with pkgs; [
+			# Wallpaper
+			awww
+
 			# Slop
 			activate-linux
-			neofetch
 			fastfetch
 
 			# Fonts
@@ -37,11 +39,13 @@
 
 			# Balatro Mod Manager!!!
 			# i fucking hate you.
+			balatro-mod-manager
 			# (callPackage ../derivations/bmm.nix {})
 		] ++ lib.optionals (osConfig.networking.hostName == "circe") [
 			inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 			(discord.override {
 				withVencord = true;
+				withOpenASAR = true;
 			})
 		];
 	};
