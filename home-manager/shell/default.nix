@@ -37,7 +37,7 @@
 			};
 		};
 
-		flavors.kanagawa-loc = ./kanagawa.yazi;
+		flavors.kanagawa = ./kanagawa.yazi;
 		theme.flavor.dark = "kanagawa";
 	};
 
