@@ -4,6 +4,7 @@ import Quickshell.Io
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 import "../utils"
 
@@ -17,122 +18,64 @@ Scope {
             screen: modelData
             id: barPanel
 
-            anchors.top: true
-            margins.top: 8
+            color: "transparent"
             implicitHeight: 32
-            anchors.left: true
-            anchors.right: true
+            anchors {
+                top: true
+                left: true
+                right: true
+            }
 
-            color: "#00000000"
+            property string modeLabel: "NOR"
+            property string modeColor: "#C4473F"
 
             RowLayout {
-                anchors.centerIn: parent
-                height: parent.height
-                spacing: 8
+                layer.enabled: true
+                layer.samples: 8
 
-                Rectangle {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 96
-
-                    color: "#202020"
-                    border.color: "#323232"
-                    border.width: 2
-                    radius: 12
-
-                    Text {
-                        anchors.centerIn: parent
-                        
-                        font: Constants.labelFont
-                        color: "#FFF"
-                        text: Clock.time
-                    }
+                spacing: 0
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: parent.right
                 }
 
-                Rectangle {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 800
-                    
-                    color: "#202020"
-                    border.color: "#323232"
-                    border.width: 2
-                    radius: 12
+                Repeater {
+                    model: [
+                        ["#505654", Hyprland.monitorFor(barPanel.screen).focused ? Hyprland.activeToplevel.title : "-"],
+                        ["purple", "Jorking it"],
+                        [modeColor, modeLabel],
+                        ["#1E1E1E", Clock.time],
+                    ]
 
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: 16
+                    Shape {
+                        required property list<string> modelData
 
-                        font: Constants.font
-                        color: "#FFF"
-                        text: "Workspace " + Hyprland.monitorFor(barPanel.screen).activeWorkspace.id
-                    }
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: segmentLabel.width + 16
 
-                    Text {
-                        anchors.centerIn: parent
+                        Text {
+                            id: segmentLabel
 
-                        font: Constants.font
-                        color: "#FFF"
-                        text: Hyprland.monitorFor(barPanel.screen).focused ? Hyprland.activeToplevel.title : "-"
-                    }
-                }
+                            leftPadding: 8
+                            anchors.centerIn: parent
 
-                Rectangle {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 80
+                            font: Constants.font
+                            color: "white"
 
-                    color: "#4a4794"
-                    border.color: "#5d5ab8"
-                    border.width: 2
-                    radius: 12
+                            text: modelData[1]
+                        }
 
-                    Text {
-                        anchors.centerIn: parent
-                        
-                        font: Constants.font
-                        color: "#FFF"
-                        text: "[float]"
-                    }
+                        ShapePath {
+                            fillColor: modelData[0]
+                            strokeWidth: 0
 
-                    visible: Hyprland.monitorFor(barPanel.screen).activeWorkspace.name == "floating"
-                }
-
-                Rectangle {
-                    id: modeTitleBackground
-                    
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 64
-
-                    color: "#497a4d"
-                    border.color: "#5c9c61"
-                    border.width: 2
-                    radius: 12
-
-                    Text {
-                        id: modeTitle
-
-                        anchors.centerIn: parent
-
-                        font: Constants.labelFont
-                        color: "#FFF"
-                        text: "NOR"
-                    }
-                }
-
-                Rectangle {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 32
-
-                    color: "#963b38"
-                    border.color: "#b54541"
-                    border.width: 2
-                    radius: 16
-
-                    Text {
-                        anchors.centerIn: parent
-
-                        font: Constants.glyphFont
-                        color: "#FFF"
-                        text: "\u23fb"
+                            startX: 0; startY: 0
+                            PathLine { x: parent.width; y: 0 }
+                            PathLine { x: parent.width; y: parent.height }
+                            PathLine { x: 8; y: parent.height }
+                            PathLine { x: 0; y: 0 }
+                        }
                     }
                 }
             }
@@ -141,20 +84,14 @@ Scope {
                 target: "bar"
 
                 function updateMode(modeName: string) {
-                    let modeColor = '#497a4d';
-                    let borderColor = '#5c9c61';
-
                     console.log(modeName);
                     switch (modeName) {
-                        case 'NOR': modeColor = '#497a4d'; borderColor = '#5c9c61'; break;
-                        case 'GRP': modeColor = '#ab5a35'; borderColor = '#c96c40'; break;
-                        case 'RSZ': modeColor = '#bab43d'; borderColor = '#d4cc44'; break;
+                        case 'NOR': modeColor = '#C4473F'; break;
+                        case 'GRP': modeColor = '#C46E3F'; break;
+                        case 'RSZ': modeColor = '#C4B03F'; break;
                         default: modeColor = '#000'; borderColor = '#000';
                     }
-
-                    modeTitle.text = modeName;
-                    modeTitleBackground.color = modeColor;
-                    modeTitleBackground.border.color = borderColor;
+                    modeLabel = modeName
                 }
             }
 

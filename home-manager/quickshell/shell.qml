@@ -7,6 +7,7 @@ import "launcher"
 
 ShellRoot {
     Bar {}
+    // Spaces {}
     Launcher {}
 }
 

@@ -29,6 +29,9 @@
 			nerd-fonts.bigblue-terminal
 			nerd-fonts.departure-mono
 
+			# Chunes
+			playerctl
+
 			# Screenshots
 			grim
 			slurp

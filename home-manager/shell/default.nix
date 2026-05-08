@@ -29,11 +29,11 @@
 		shellWrapperName = "y";
 		settings = {
 			mgr = {
-				ratio = [
-					0
-					1
-					0
-				];
+				# ratio = [
+				# 	0
+				# 	1
+				# 	0
+				# ];
 			};
 		};
 
