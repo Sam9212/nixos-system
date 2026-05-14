@@ -17,6 +17,10 @@
 			# Screenshotting
 			"$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
 
+			# Scratchpad
+			"$mod, B, movetoworkspace, special"
+			"$mod, Caps_Lock, togglespecialworkspace, "
+
 			# Opening Slop
 			"$mod, T, exec, $terminal"
 			"$mod, Space, exec, $launcher"

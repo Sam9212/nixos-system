@@ -8,6 +8,7 @@
 
 	programs.helix = {
 	  enable = true;
+	  defaultEditor = true;
 	  settings = {
 	    theme = "bogster";
 	    keys.normal = {
@@ -29,12 +30,23 @@
 		shellWrapperName = "y";
 		settings = {
 			mgr = {
-				# ratio = [
-				# 	0
-				# 	1
-				# 	0
-				# ];
+				ratio = [
+					0
+					1
+					0
+				];
 			};
+
+			opener.edit = [{
+				run = "zellij ac edit %s";
+				orphan = true;
+				desc = "Edit in new zellij pane";
+			}];
+
+			open.rules = [{
+				url = "*.nix";
+				use = "edit";
+			}];
 		};
 
 		flavors.kanagawa = ./kanagawa.yazi;

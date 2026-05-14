@@ -18,6 +18,7 @@
 
 			input = {
 				kb_layout = "gb";
+				kb_options = "caps:ctrl-modifier";
 				sensitivity = "-0.1";
 			};
 
@@ -41,10 +42,6 @@
 			dwindle = {
 				smart_split = "true";
 				preserve_split = "true";
-			};
-
-			group.groupbar = {
-				
 			};
 
 			windowrule = [

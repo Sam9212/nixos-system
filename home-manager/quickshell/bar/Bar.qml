@@ -29,6 +29,25 @@ Scope {
             property string modeLabel: "NOR"
             property string modeColor: "#C4473F"
 
+            property HyprlandMonitor currentMonitor: Hyprland.monitorFor(barPanel.screen)
+
+            property string songDescription: `${Player.title.trim()} - ${Player.artist.trim()} - `
+            property string cacheTitle: {cacheTitle = Player.title}
+            Timer {
+                interval: 250
+                running: true
+                repeat: true
+
+                onTriggered: {
+                    if (cacheTitle !== Player.title) {
+                        cacheTitle = Player.title;
+                        songDescription = `${Player.title.trim()} - ${Player.artist.trim()} - `;
+                    } else {
+                        songDescription = `${songDescription.slice(1)}${songDescription.slice(0, 1)}`;
+                    }
+                }
+            }
+
             RowLayout {
                 layer.enabled: true
                 layer.samples: 8
@@ -42,8 +61,10 @@ Scope {
 
                 Repeater {
                     model: [
-                        ["#505654", Hyprland.monitorFor(barPanel.screen).focused ? Hyprland.activeToplevel.title : "-"],
-                        ["purple", "Jorking it"],
+                        ["#505654", currentMonitor.focused ? Hyprland.activeToplevel?.title || "?" : "-"],
+                        ["#2C2E2D", `Space ${currentMonitor.activeWorkspace.id}`],
+                        ...(Player.isAppleMusic ? [["#1D2120", songDescription.slice(0, 20)]] : []),
+                        ...(currentMonitor.activeWorkspace.name == "floating" ? [["#533FC4", "floating"]] : []),
                         [modeColor, modeLabel],
                         ["#1E1E1E", Clock.time],
                     ]
