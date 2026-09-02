@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
 	time.timeZone = "Europe/London";
@@ -6,7 +6,14 @@
 	services.xserver.enable = true;
 	services.displayManager.sddm.enable = true;
 	services.desktopManager.plasma6.enable = true;
-	programs.hyprland.enable = true;
+	programs.hyprland = {
+		enable = true;
+
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+	};
+
+	environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 	users.users.samcg = {
 		isNormalUser = true;

@@ -2,6 +2,7 @@
   description = "Sam9212 System Coreflake";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hyprland.url = "github:hyprwm/Hyprland";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,10 +19,19 @@
 
   outputs = { self, nixpkgs, home-manager, aagl, ... }@inputs: {
     nixosConfigurations.circe = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
       modules = [
+        {
+          nix.settings = {
+            substituters = ["https://hyprland.cachix.org"];
+            trusted-substituters = ["https://hyprland.cachix.org"];
+            trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+          };
+        }
+
         ./core
         ./hosts/circe
-
+        
         home-manager.nixosModules.home-manager {
           home-manager.extraSpecialArgs = { inherit inputs; };
           home-manager.useGlobalPkgs = true;
@@ -31,7 +41,7 @@
 
         {
           imports = [ aagl.nixosModules.default ];
-          nix.settings = aagl.nixConfig; # Set up Cachix
+          nix.settings = aagl.nixConfig;
           programs.anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
           programs.honkers-railway-launcher.enable = true;
         }

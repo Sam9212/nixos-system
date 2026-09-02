@@ -43,7 +43,9 @@
 			# Balatro Mod Manager!!!
 			# i fucking hate you.
 			balatro-mod-manager
-			# (callPackage ../derivations/bmm.nix {})
+
+			# Geometry Dash Mod Manager
+			(callPackage ../derivations/geode.nix {})
 		] ++ lib.optionals (osConfig.networking.hostName == "circe") [
 			inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 			(discord.override {

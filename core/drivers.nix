@@ -13,4 +13,16 @@
 		alsa.support32Bit = true;
 		pulse.enable = true;
 	};
+
+	services.joycond.enable = true;
+	services.blueman.enable = true;
+	hardware.bluetooth = {
+		enable = true;
+		powerOnBoot = false;
+		input = {
+			General = {
+				UserspaceHID = false;
+			};
+		};
+	};
 }

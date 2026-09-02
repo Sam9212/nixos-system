@@ -1,10 +1,19 @@
 layout {
 	pane split_direction="vertical" {
-		pane command="yazi" {
-			size "15%"
+		pane size="10%" {
+			pane command="yazi" {
+				borderless true
+				default_bg "#161C23"
+			}
+			pane {
+				size 1
+				default_bg "#161C23"
+				borderless true
+			}
 		}
 		pane command="hx" {
 			size "85%"
+			borderless true
 		}
 	}
 }
